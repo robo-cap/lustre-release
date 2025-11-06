@@ -1989,6 +1989,7 @@ ksocknal_handle_link_state_change(struct net_device *dev,
 	u32 ni_state_before;
 	bool update_ping_buf = false;
 	int state;
+	struct net *dev_netns = dev_net(dev);
 
 	link_down = !((operstate == IF_OPER_UP) || (operstate == IF_OPER_UNKNOWN));
 	ifindex = dev->ifindex;
@@ -2026,6 +2027,13 @@ ksocknal_handle_link_state_change(struct net_device *dev,
 		}
 
 		ni = net->ksnn_ni;
+		
+		/* Skip devices from a different namespace */
+		if (!net_eq(dev_netns, ni->ni_net_ns)) {
+		        CDEBUG(D_NET, "Skipping device %s from namespace %p (expected %p)\n",
+		               dev->name, dev_netns, ni->ni_net_ns);
+		        continue;
+		}
 
 		sa = (void *)&ksi->ksni_addr;
 		switch (sa->sa_family) {
