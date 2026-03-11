@@ -65,6 +65,10 @@ DKMS_CONFIG_OPTS=$(
       then
 	echo --disable-libcfs-assert
       fi
+      if [[ -n ${LUSTRE_DKMS_CONFIGURE_EXTRA:-} ]]
+      then
+       echo ${LUSTRE_DKMS_CONFIGURE_EXTRA}
+      fi
     }
   )
 

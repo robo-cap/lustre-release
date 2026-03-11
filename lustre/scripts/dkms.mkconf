@@ -59,9 +59,13 @@ DEST_MODULE_LOCATION[\${#DEST_MODULE_LOCATION[@]}]="/${kmoddir}/lnet/"
 BUILT_MODULE_NAME[\${#BUILT_MODULE_NAME[@]}]="ksocklnd"
 BUILT_MODULE_LOCATION[\${#BUILT_MODULE_LOCATION[@]}]="lnet/klnds/socklnd/"
 DEST_MODULE_LOCATION[\${#DEST_MODULE_LOCATION[@]}]="/${kmoddir}/lnet/"
+if ! { [[ -r \${PACKAGE_CONFIG} ]] \
+  && source \${PACKAGE_CONFIG} \
+  && [[ " \${LUSTRE_DKMS_CONFIGURE_EXTRA:-} " =~ (^|[[:space:]])--with-o2ib=no($|[[:space:]]) ]]; }; then
 BUILT_MODULE_NAME[\${#BUILT_MODULE_NAME[@]}]="ko2iblnd"
 BUILT_MODULE_LOCATION[\${#BUILT_MODULE_LOCATION[@]}]="lnet/klnds/o2iblnd/"
 DEST_MODULE_LOCATION[\${#DEST_MODULE_LOCATION[@]}]="/${kmoddir}/lnet/"
+fi
 BUILT_MODULE_NAME[\${#BUILT_MODULE_NAME[@]}]="libcfs"
 BUILT_MODULE_LOCATION[\${#BUILT_MODULE_LOCATION[@]}]="libcfs/libcfs/"
 DEST_MODULE_LOCATION[\${#DEST_MODULE_LOCATION[@]}]="/${kmoddir}/lustre/"
